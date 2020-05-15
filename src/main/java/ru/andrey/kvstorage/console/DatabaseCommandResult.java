@@ -26,19 +26,25 @@ public interface DatabaseCommandResult {
 
     class DatabaseCommandResultImpl implements DatabaseCommandResult {
         private final DatabaseCommandStatus status;
-        private final String message;
+        private final String resultMessage;
+        private final String errorMessage;
 
         private DatabaseCommandResultImpl(DatabaseCommandStatus status, String message) {
             this.status = status;
-            this.message = message;
+
+            if (isSuccess()) {
+                this.resultMessage = message;
+                this.errorMessage = null;
+            }
+            else {
+                this.resultMessage = null;
+                this.errorMessage = message;
+            }
         }
 
         @Override
         public Optional<String> getResult() {
-            if (isSuccess())
-                return Optional.of(message);
-
-            return Optional.empty();
+            return Optional.of(resultMessage);
         }
 
         @Override
@@ -53,9 +59,7 @@ public interface DatabaseCommandResult {
 
         @Override
         public String getErrorMessage() {
-            if (!isSuccess())
-                return message;
-            return null;
+            return errorMessage;
         }
     }
 }

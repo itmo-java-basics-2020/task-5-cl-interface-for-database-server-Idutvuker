@@ -8,29 +8,25 @@ import ru.andrey.kvstorage.logic.Database;
 
 import java.util.Optional;
 
-public class CommandUpdateKey implements DatabaseCommand {
+public class ReadKeyCommand implements DatabaseCommand {
 	private final String databaseName;
 	private final String tableName;
 	private final String key;
-	private final String value;
 	private final ExecutionEnvironment environment;
 
-	public CommandUpdateKey(ExecutionEnvironment environment, String databaseName,
-							String tableName, String key, String value) {
+	public ReadKeyCommand(ExecutionEnvironment environment, String databaseName, String tableName, String key) {
 		this.databaseName = databaseName;
 		this.tableName = tableName;
 		this.key = key;
-		this.value = value;
 		this.environment = environment;
 	}
 
 	@Override
 	public DatabaseCommandResult execute() throws DatabaseException {
 		Optional<Database> databaseOptional = environment.getDatabase(databaseName);
-
 		if (databaseOptional.isPresent()) {
-			databaseOptional.get().write(tableName, key, value);
-			return DatabaseCommandResult.success("Key updated");
+			String value = databaseOptional.get().read(tableName, key);
+			return DatabaseCommandResult.success(value);
 		}
 		else {
 			return DatabaseCommandResult.error("Database not found");

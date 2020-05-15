@@ -8,7 +8,7 @@ public enum DatabaseCommands {
 		public DatabaseCommand getCommand(ExecutionEnvironment env, String... args) {
 			if (args.length != 2)
 				throw new IllegalArgumentException("CREATE_DATABASE require 1 argument");
-			return new CommandCreateDatabase(env, args[1]);
+			return new CreateDatabaseCommand(env, args[1]);
 		}
 	},
 
@@ -17,7 +17,7 @@ public enum DatabaseCommands {
 		public DatabaseCommand getCommand(ExecutionEnvironment env, String... args) {
 			if (args.length != 3)
 				throw new IllegalArgumentException("CREATE_TABLE require 2 arguments");
-			return new CommandCreateTable(env, args[1], args[2]);
+			return new CreateTableCommand(env, args[1], args[2]);
 		}
 	},
 
@@ -26,7 +26,7 @@ public enum DatabaseCommands {
 		public DatabaseCommand getCommand(ExecutionEnvironment env, String... args) {
 			if (args.length != 5)
 				throw new IllegalArgumentException("UPDATE_KEY require 4 arguments");
-			return new CommandUpdateKey(env, args[1], args[2], args[3], args[4]);
+			return new UpdateKeyCommand(env, args[1], args[2], args[3], args[4]);
 		}
 	},
 
@@ -35,7 +35,7 @@ public enum DatabaseCommands {
 		public DatabaseCommand getCommand(ExecutionEnvironment env, String... args) {
 			if (args.length != 4)
 				throw new IllegalArgumentException("READ_KEY require 3 argument");
-			return new CommandReadKey(env, args[1], args[2], args[3]);
+			return new ReadKeyCommand(env, args[1], args[2], args[3]);
 		}
 	};
 
